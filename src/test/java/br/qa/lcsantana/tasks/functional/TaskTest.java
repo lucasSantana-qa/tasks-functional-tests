@@ -13,6 +13,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class TaskTest {
 
@@ -20,8 +22,8 @@ public class TaskTest {
 
     public RemoteWebDriver acessarAplicacao() throws MalformedURLException, URISyntaxException {
         ChromeOptions options = new ChromeOptions();
-        RemoteWebDriver driver = new RemoteWebDriver(new URI("http://192.168.1.4:4444/").toURL(), options);
-        driver.get("http://192.168.1.4:8001/tasks");
+        RemoteWebDriver driver = new RemoteWebDriver(new URI("http://host.docker.internal:4444/wd/hub").toURL(), options);
+        driver.get("http://host.docker.internal:8001/tasks");
         return driver;
     }
 
@@ -29,9 +31,10 @@ public class TaskTest {
     public void deveSalvarTarefaComSucesso() throws MalformedURLException, URISyntaxException {
         WebDriver driver = acessarAplicacao();
         try {
+            String localDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             driver.findElement(By.id("addTodo")).click();
             driver.findElement(By.id("task")).sendKeys("Teste funcional selenium");
-            driver.findElement(By.id("dueDate")).sendKeys("12/07/2025");
+            driver.findElement(By.id("dueDate")).sendKeys(localDate);
             driver.findElement(By.id("saveButton")).click();
 
             WebDriverWait wait = new WebDriverWait(driver, tempo);
