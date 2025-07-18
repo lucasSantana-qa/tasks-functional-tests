@@ -114,7 +114,8 @@ public class TaskTest {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("message")));
             Assert.assertEquals("Success!", driver.findElement(By.id("message")).getText());
 
-            driver.findElement(By.xpath("//tbody//td[text()='Teste remover']/following-sibling::td[2]/a")).click();
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tbody//td[text()='Teste Remover']/following-sibling::td[2]/a")));
+            driver.findElement(By.xpath("//tbody//td[text()='Teste Remover']/following-sibling::td[2]/a")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("message")));
             Assert.assertEquals("Success!", driver.findElement(By.id("message")).getText());
         } finally {
