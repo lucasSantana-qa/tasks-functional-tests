@@ -98,4 +98,27 @@ public class TaskTest {
             driver.quit();
         }
     }
+
+    @Test
+    public void deveRemoverTarefaComSucesso() throws MalformedURLException, URISyntaxException {
+        WebDriver driver = acessarAplicacao();
+        try {
+            String localDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            driver.findElement(By.id("addTodo")).click();
+            driver.findElement(By.id("task")).sendKeys("Teste Remover");
+            driver.findElement(By.id("dueDate")).sendKeys(localDate);
+            driver.findElement(By.id("saveButton")).click();
+
+            WebDriverWait wait = new WebDriverWait(driver, tempo);
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("message")));
+            Assert.assertEquals("Success!", driver.findElement(By.id("message")).getText());
+
+            driver.findElement(By.xpath("//tbody//td[text()='Teste remover']/following-sibling::td[2]/a")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("message")));
+            Assert.assertEquals("Success!", driver.findElement(By.id("message")).getText());
+        } finally {
+            driver.quit();
+        }
+    }
 }
